@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alerta Genesys</title>
+</head>
+<body>
+
+<h1>Alerta Genesys</h1>
+
+<script>
+
+if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+}
+
+new Notification("Genesys Cloud", {
+    body: "Ligação encerrada pelo cliente."
+});
+
+</script>
+
+</body>
+</html>
