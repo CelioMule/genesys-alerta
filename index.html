@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="utf-8">
+<title>Teste Genesys</title>
+</head>
 <body>
 
 <script>
 
 document.body.innerHTML =
 "Permissão: " + Notification.permission;
+
+try {
+
+    const notification = new Notification(
+        "Genesys Test",
+        {
+            body: "Notificação de teste"
+        }
+    );
+
+    document.body.innerHTML +=
+        "<br><br>Notificação criada com sucesso";
+
+} catch (e) {
+
+    document.body.innerHTML +=
+        "<br><br>Erro: " + e.message;
+
+}
 
 </script>
 
