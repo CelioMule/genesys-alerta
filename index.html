@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Alerta Genesys</title>
+<title>Genesys Alert</title>
 </head>
 <body>
 
@@ -16,6 +16,21 @@ const id = params.get('id');
 console.log('Estado:', state);
 console.log('Interação:', id);
 
+function exibirNotificacao() {
+
+    const notification = new Notification(
+        'Genesys Cloud',
+        {
+            body: 'O cliente encerrou a ligação. Finalize o registro do atendimento.'
+        }
+    );
+
+    setTimeout(() => {
+        notification.close();
+    }, 5000);
+
+}
+
 if (
     state &&
     state.toLowerCase().includes('disconnect')
@@ -23,28 +38,14 @@ if (
 
     if (Notification.permission === 'granted') {
 
-        new Notification(
-            'Genesys Cloud',
-            {
-                body: 'A ligação foi encerrada pelo cliente.',
-                requireInteraction: true
-            }
-        );
+        exibirNotificacao();
 
     } else if (Notification.permission !== 'denied') {
 
         Notification.requestPermission().then(function(permission){
 
             if(permission === 'granted') {
-
-                new Notification(
-                    'Genesys Cloud',
-                    {
-                        body: 'A ligação foi encerrada pelo cliente.',
-                        requireInteraction: true
-                    }
-                );
-
+                exibirNotificacao();
             }
 
         });
