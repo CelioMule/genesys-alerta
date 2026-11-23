@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
 <meta charset="utf-8">
 <title>Alerta Genesys</title>
@@ -9,50 +9,45 @@
 <script>
 
 const params = new URLSearchParams(window.location.search);
-const state = params.get('state');
 
-// Dispara apenas quando a ligação for encerrada
+const state = params.get('state');
+const id = params.get('id');
+
+console.log('Estado:', state);
+console.log('Interação:', id);
+
 if (
     state &&
-    state.toLowerCase().includes("disconnect")
+    state.toLowerCase().includes('disconnect')
 ) {
 
-    // Evita múltiplas notificações para o mesmo carregamento
-    const chave = "alerta-" + state;
+    if (Notification.permission === 'granted') {
 
-    if (!sessionStorage.getItem(chave)) {
+        new Notification(
+            'Genesys Cloud',
+            {
+                body: 'A ligação foi encerrada pelo cliente.',
+                requireInteraction: true
+            }
+        );
 
-        sessionStorage.setItem(chave, "enviado");
+    } else if (Notification.permission !== 'denied') {
 
-        if (Notification.permission === "granted") {
+        Notification.requestPermission().then(function(permission){
 
-            new Notification(
-                "Genesys Cloud",
-                {
-                    body: "A ligação foi encerrada pelo cliente.",
-                    requireInteraction: true
-                }
-            );
+            if(permission === 'granted') {
 
-        } else if (Notification.permission !== "denied") {
+                new Notification(
+                    'Genesys Cloud',
+                    {
+                        body: 'A ligação foi encerrada pelo cliente.',
+                        requireInteraction: true
+                    }
+                );
 
-            Notification.requestPermission().then(function(permission) {
+            }
 
-                if (permission === "granted") {
-
-                    new Notification(
-                        "Genesys Cloud",
-                        {
-                            body: "A ligação foi encerrada pelo cliente.",
-                            requireInteraction: true
-                        }
-                    );
-
-                }
-
-            });
-
-        }
+        });
 
     }
 
