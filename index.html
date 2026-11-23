@@ -1,38 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <title>Alerta Genesys</title>
 </head>
 <body>
 
-<h1>Alerta Genesys</h1>
-
-<p id="estado"></p>
-
 <script>
 
 const params = new URLSearchParams(window.location.search);
 const state = params.get('state');
 
-document.getElementById('estado').innerText =
-    "Estado atual: " + state;
+// Dispara apenas quando a ligação for encerrada
+if (
+    state &&
+    state.toLowerCase().includes("disconnect")
+) {
 
-if(state === 'Disconnected') {
+    // Evita múltiplas notificações para o mesmo carregamento
+    const chave = "alerta-" + state;
 
-    if(Notification.permission !== "granted") {
-        Notification.requestPermission();
+    if (!sessionStorage.getItem(chave)) {
+
+        sessionStorage.setItem(chave, "enviado");
+
+        if (Notification.permission === "granted") {
+
+            new Notification(
+                "Genesys Cloud",
+                {
+                    body: "A ligação foi encerrada pelo cliente.",
+                    requireInteraction: true
+                }
+            );
+
+        } else if (Notification.permission !== "denied") {
+
+            Notification.requestPermission().then(function(permission) {
+
+                if (permission === "granted") {
+
+                    new Notification(
+                        "Genesys Cloud",
+                        {
+                            body: "A ligação foi encerrada pelo cliente.",
+                            requireInteraction: true
+                        }
+                    );
+
+                }
+
+            });
+
+        }
+
     }
 
-    new Notification("Genesys Cloud", {
-        body: "A ligação foi encerrada pelo cliente."
-    });
-
-    const audio = new Audio(
-        "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-    );
-
-    audio.play();
 }
 
 </script>
