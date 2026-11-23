@@ -1,58 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>Genesys Alert</title>
-</head>
 <body>
 
 <script>
 
-const params = new URLSearchParams(window.location.search);
-
-const state = params.get('state');
-const id = params.get('id');
-
-console.log('Estado:', state);
-console.log('Interação:', id);
-
-function exibirNotificacao() {
-
-    const notification = new Notification(
-        'Genesys Cloud',
-        {
-            body: 'O cliente encerrou a ligação. Finalize o registro do atendimento.'
-        }
-    );
-
-    setTimeout(() => {
-        notification.close();
-    }, 7000);
-
-}
-
-if (
-    state &&
-    state.toLowerCase().includes('disconnect')
-) {
-
-    if (Notification.permission === 'granted') {
-
-        exibirNotificacao();
-
-    } else if (Notification.permission !== 'denied') {
-
-        Notification.requestPermission().then(function(permission){
-
-            if(permission === 'granted') {
-                exibirNotificacao();
-            }
-
-        });
-
-    }
-
-}
+document.body.innerHTML =
+"Permissão: " + Notification.permission;
 
 </script>
 
