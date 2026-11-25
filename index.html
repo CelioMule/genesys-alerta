@@ -13,7 +13,7 @@
 document.body.innerHTML += "<br>Script iniciado";
 
 document.body.innerHTML +=
-"<br>Notification existe? " +
+"<br>typeof Notification: " +
 (typeof Notification);
 
 try {
@@ -26,7 +26,7 @@ try {
 catch(e){
 
     document.body.innerHTML +=
-    "<br>Erro Permission: " +
+    "<br>Erro: " +
     e.message;
 
 }
