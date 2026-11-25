@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<title>Genesys Alert</title>
+<meta charset="UTF-8">
+<title>MAPFRE ALERTA</title>
 </head>
 <body>
 
@@ -11,6 +11,10 @@
 const params = new URLSearchParams(window.location.search);
 
 const state = params.get('state');
+const id = params.get('id');
+
+console.log('Estado:', state);
+console.log('Interação:', id);
 
 if (
     state &&
@@ -22,10 +26,15 @@ if (
 ) {
 
     fetch(
-        'http://localhost:9999/'
-    ).catch(
-        err => console.log(err)
-    );
+        'http://localhost:9999/',
+        {
+            method: 'GET',
+            mode: 'no-cors'
+        }
+    )
+    .catch(error => {
+        console.log('Erro:', error);
+    });
 
 }
 
