@@ -2,83 +2,38 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Genesys Alert</title>
+<title>Teste Notification</title>
 </head>
 <body>
 
+<h2>Teste de Notificação</h2>
+
 <script>
 
-const params = new URLSearchParams(window.location.search);
+document.write(
+    "Permissão: " + Notification.permission
+);
 
-const state = params.get('state');
+try {
 
-if (
-    state &&
-    (
-        state.toLowerCase().includes('disconnect') ||
-        state.toLowerCase().includes('desconect')
-    )
-) {
+    const notification =
+        new Notification(
+            "Genesys Test",
+            {
+                body: "Teste Notification API"
+            }
+        );
 
-    const mensagem =
-        "O cliente encerrou a ligação. Finalize o registro do atendimento.";
+    document.write(
+        "<br>Notificação criada com sucesso"
+    );
 
-    // Navegadores modernos
-    if (
-        typeof Notification !== "undefined"
-    ) {
+}
+catch(e){
 
-        if (
-            Notification.permission === "granted"
-        ) {
-
-            const notification =
-                new Notification(
-                    "Genesys Cloud",
-                    {
-                        body: mensagem
-                    }
-                );
-
-            setTimeout(() => {
-                notification.close();
-            }, 5000);
-
-        }
-        else if (
-            Notification.permission === "default"
-        ) {
-
-            Notification.requestPermission()
-            .then(permission => {
-
-                if(permission === "granted") {
-
-                    const notification =
-                        new Notification(
-                            "Genesys Cloud",
-                            {
-                                body: mensagem
-                            }
-                        );
-
-                    setTimeout(() => {
-                        notification.close();
-                    }, 5000);
-
-                }
-
-            });
-
-        }
-
-    }
-    // Fallback para Genesys Desktop App
-    else {
-
-        alert(mensagem);
-
-    }
+    document.write(
+        "<br>Erro: " + e.message
+    );
 
 }
 
