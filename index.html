@@ -4,10 +4,22 @@
 
 <script>
 
-if(confirm(
-    "Cliente encerrou a ligação."
-)){
-    console.log("OK");
+const params = new URLSearchParams(window.location.search);
+
+const state = params.get('state');
+
+if (
+    state &&
+    (
+        state.toLowerCase().includes('disconnect') ||
+        state.toLowerCase().includes('desconect')
+    )
+) {
+
+    confirm(
+        "Cliente encerrou a ligação."
+    );
+
 }
 
 </script>
