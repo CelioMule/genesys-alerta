@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>MAPFRE ALERTA</title>
+<meta charset="utf-8">
+<title>Genesys Alert</title>
 </head>
 <body>
 
@@ -16,25 +16,41 @@ const id = params.get('id');
 console.log('Estado:', state);
 console.log('Interação:', id);
 
+function exibirNotificacao() {
+
+    const notification = new Notification(
+        'Genesys Cloud',
+        {
+            body: 'O cliente encerrou a ligação. Finalize o registro do atendimento.'
+        }
+    );
+
+    setTimeout(() => {
+        notification.close();
+    }, 7000);
+
+}
+
 if (
     state &&
-    (
-        state.toLowerCase().includes('disconnect')
-        ||
-        state.toLowerCase().includes('desconect')
-    )
+    state.toLowerCase().includes('disconnect')
 ) {
 
-    fetch(
-        'http://localhost:9999/',
-        {
-            method: 'GET',
-            mode: 'no-cors'
-        }
-    )
-    .catch(error => {
-        console.log('Erro:', error);
-    });
+    if (Notification.permission === 'granted') {
+
+        exibirNotificacao();
+
+    } else if (Notification.permission !== 'denied') {
+
+        Notification.requestPermission().then(function(permission){
+
+            if(permission === 'granted') {
+                exibirNotificacao();
+            }
+
+        });
+
+    }
 
 }
 
