@@ -2,32 +2,26 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Genesys Debug</title>
+<title>Genesys Alert</title>
 </head>
 <body>
 
-<h2>Teste Notification</h2>
-
 <script>
 
-document.body.innerHTML += "<br>Script iniciado";
+const params = new URLSearchParams(window.location.search);
 
-document.body.innerHTML +=
-"<br>typeof Notification: " +
-(typeof Notification);
+const state = params.get('state');
 
-try {
+if (
+    state &&
+    (
+        state.toLowerCase().includes('disconnect') ||
+        state.toLowerCase().includes('desconect')
+    )
+) {
 
-    document.body.innerHTML +=
-    "<br>Permission: " +
-    Notification.permission;
-
-}
-catch(e){
-
-    document.body.innerHTML +=
-    "<br>Erro: " +
-    e.message;
+    fetch('http://localhost:9999/')
+    .catch(err => console.log(err));
 
 }
 
