@@ -1,8 +1,39 @@
 <!DOCTYPE html>
 <html>
-<body style="background:yellow">
+<head>
+<meta charset="utf-8">
+<title>Genesys Alert</title>
+</head>
+<body>
 
-<h1>GENESYS TESTE</h1>
+<h2>Diagnóstico</h2>
+
+<script>
+
+try {
+
+    document.write("<br>Notification existe: " + ("Notification" in window));
+
+    document.write("<br>Permissão: " + Notification.permission);
+
+    const notification = new Notification(
+        "Genesys Test",
+        {
+            body: "Teste de notificação"
+        }
+    );
+
+    document.write("<br>Notificação criada com sucesso");
+
+} catch(error) {
+
+    document.write("<br>ERRO:");
+
+    document.write("<br>" + error.message);
+
+}
+
+</script>
 
 </body>
 </html>
