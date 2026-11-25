@@ -2,31 +2,55 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Teste Genesys</title>
+<title>Genesys Alert</title>
 </head>
 <body>
 
 <script>
 
-document.body.innerHTML =
-"Permissão: " + Notification.permission;
+const params = new URLSearchParams(window.location.search);
 
-try {
+const state = params.get('state');
+const id = params.get('id');
+
+console.log('Estado:', state);
+console.log('Interação:', id);
+
+function exibirNotificacao() {
 
     const notification = new Notification(
-        "Genesys Test",
+        'Genesys Cloud',
         {
-            body: "Notificação de teste"
+            body: 'O cliente encerrou a ligação. Finalize o registro do atendimento.'
         }
     );
 
-    document.body.innerHTML +=
-        "<br><br>Notificação criada com sucesso";
+    setTimeout(() => {
+        notification.close();
+    }, 7000);
 
-} catch (e) {
+}
 
-    document.body.innerHTML +=
-        "<br><br>Erro: " + e.message;
+if (
+    state &&
+    state.toLowerCase().includes('disconnect')
+) {
+
+    if (Notification.permission === 'granted') {
+
+        exibirNotificacao();
+
+    } else if (Notification.permission !== 'denied') {
+
+        Notification.requestPermission().then(function(permission){
+
+            if(permission === 'granted') {
+                exibirNotificacao();
+            }
+
+        });
+
+    }
 
 }
 
