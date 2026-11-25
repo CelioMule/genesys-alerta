@@ -1,36 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>Genesys Alert</title>
-</head>
 <body>
-
-<h2>Diagnóstico</h2>
 
 <script>
 
-try {
-
-    document.write("<br>Notification existe: " + ("Notification" in window));
-
-    document.write("<br>Permissão: " + Notification.permission);
-
-    const notification = new Notification(
-        "Genesys Test",
-        {
-            body: "Teste de notificação"
-        }
-    );
-
-    document.write("<br>Notificação criada com sucesso");
-
-} catch(error) {
-
-    document.write("<br>ERRO:");
-
-    document.write("<br>" + error.message);
-
+if(confirm(
+    "Cliente encerrou a ligação."
+)){
+    console.log("OK");
 }
 
 </script>
