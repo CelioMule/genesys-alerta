@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Genesys Debug</title>
+
 <style>
 body{
     background:#111;
@@ -10,8 +11,16 @@ body{
     font-size:24px;
     font-family:Arial;
 }
+.ok{
+    color:#00ff66;
+}
+.erro{
+    color:#ff6666;
+}
 </style>
+
 </head>
+
 <body>
 
 <h2>Genesys Debug</h2>
@@ -22,18 +31,49 @@ body{
 
 const params = new URLSearchParams(window.location.search);
 
-const state = params.get('state');
-const id = params.get('id');
+const state = params.get('state') || '';
+const id = params.get('id') || '';
 
-document.getElementById("resultado").innerHTML =
-`
+const estado = state.toLowerCase();
+
+const chamadaEncerrada =
+       estado.includes('disconnect')
+    || estado.includes('disconnected')
+    || estado.includes('desconect');
+
+document.getElementById("resultado").innerHTML = `
 Estado: ${state}<br>
 ID: ${id}<br>
-Horario: ${new Date().toLocaleTimeString()}
+Horário: ${new Date().toLocaleTimeString()}<br><br>
+
+Status Detectado:
+<span class="${chamadaEncerrada ? 'ok' : 'erro'}">
+${chamadaEncerrada ? 'CHAMADA ENCERRADA' : 'CHAMADA ATIVA'}
+</span>
 `;
 
-console.log("State:",state);
-console.log("ID:",id);
+console.log("State:", state);
+console.log("ID:", id);
+console.log("Chamada Encerrada:", chamadaEncerrada);
+
+if (chamadaEncerrada) {
+
+    if (Notification.permission === 'granted') {
+
+        const notification = new Notification(
+            'Genesys Cloud',
+            {
+                body: 'O cliente encerrou a ligação. Finalize o registro do atendimento.'
+            }
+        );
+
+        setTimeout(() => {
+            notification.close();
+        }, 7000);
+
+    }
+
+}
 
 </script>
 
